@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import NavBar from "../components/navBar";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Scanner from "../components/Scanner";
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [isScannerOpen, setIsScannerOpen] = useState(false); // Scanner state
 
   useEffect(() => {
     async function fetchProducts() {
@@ -63,9 +65,9 @@ function Home() {
                   ${product.price}
                 </p>
                 <div className="w-full flex justify-center my-4  ">
-                  <Link className="bg-green-500 text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-green-600 transition duration-300"
+                  <Link
+                    className="bg-green-500 text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-green-600 transition duration-300"
                     to={`/products/${product.id}`}
-                    
                   >
                     View Details
                   </Link>
@@ -75,6 +77,30 @@ function Home() {
           )}
         </div>
       </section>
+      {/* Fixed button for Scanning  */}
+      <button
+        onClick={() => setIsScannerOpen(true)}
+        className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300 flex items-center space-x-2 z-40"
+      >
+        <svg
+          className="w-6 h-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          {/* Top-left */}
+          <path d="M7 8H4V4H8V7" strokeWidth="2" />
+          {/* Top-right  */}
+          <path d="M17 8H20V4H16V7" strokeWidth="2" />
+          {/* Bottom-left */}
+          <path d="M7 16H4V20H8V17" strokeWidth="2" />
+          {/* Bottom-right */}
+          <path d="M17 16H20V20H16V17" strokeWidth="2" />
+        </svg>
+        <span>Scan Product</span>
+      </button>
+      {/* Scanner Component */}
+      <Scanner isOpen={isScannerOpen} onClose={() => setIsScannerOpen(false)} />
 
       {/* Call to Action Section */}
       <section className="bg-gray-800 text-white text-center py-20">
